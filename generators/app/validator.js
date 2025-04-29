@@ -1,19 +1,19 @@
-const nameRegex = /^[a-z0-9][a-z0-9-]*$/i;
-const publisherRegex = /^(@[a-z0-9-~][a-z0-9-._~]*\/)[a-z0-9-~][a-z0-9-._~]*$/;
-
-module.exports.validateExtensionName = (id) => {
-  if (!id) {
-    return "Missing extension name";
+export const validateExtensionName = (name) => {
+  if (!name) {
+    return "Extension name is required";
   }
-  if (!nameRegex.test(id)) {
-    return "Invalid extension name";
+  if (!/^[a-z0-9-]+$/.test(name)) {
+    return "Extension name can only contain lowercase letters, numbers, and hyphens";
   }
   return true;
 };
 
-module.exports.validatePublisher = (publisher) => {
-  if (!publisherRegex.test(publisher)) {
-    return "Invalid publisher format, valid @<pub_name>/<pkg_name>";
+export const validatePublisher = (publisher) => {
+  if (!publisher) {
+    return "Publisher name is required";
+  }
+  if (!/^@[a-z0-9-]+\/[a-z0-9-]+$/.test(publisher)) {
+    return "Publisher name must be in the format @scope/name";
   }
   return true;
 };

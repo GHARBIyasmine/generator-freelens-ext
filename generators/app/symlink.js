@@ -1,18 +1,13 @@
-const os = require("os");
-const { execSync } = require("child_process");
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-exports.symlink = (src, extName) => {
-  const platform = os.platform();
-  if (platform.includes("win32")) {
-    // %userprofile% = C:\users\[username]
-    // exec("mkdir %userprofile%\.k8slens\extensions -force");
-    console.warn("generate-lens-ext doesnt support symlink on win yet.");
-    console.warn("Please symlink by yourself https://docs.k8slens.dev/latest/extensions/get-started/your-first-extension/#your-first-extension");
-  } else {
-    // mac or linux
-    const extensionsRoot = "~/.k8slens/extensions";
-    execSync(`mkdir -p "${extensionsRoot}"`);
-    execSync(`ln -s "${src}" "${extensionsRoot}/${extName}"`);
-    console.info(`symlinked "${src}" -> "${extensionsRoot}/${extName}"; platform:${platform}`);
-  }
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export const createSymlink = (generator) => {
+  const extensionPath = path.join(process.env.HOME || process.env.USERPROFILE, '.k8slens', 'extensions', generator.extensionConfig.name);
+  generator.fs.ensureDir(path.dirname(extensionPath));
+  generator.fs.symlink(
+    generator.destinationPath(generator.extensionConfig.name),
+    extensionPath
+  );
 };

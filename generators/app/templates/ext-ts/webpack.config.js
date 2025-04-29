@@ -21,8 +21,9 @@ module.exports = [
     },
     externals: [
       {
-        "@k8slens/extensions": "var global.LensExtensions",
-        "mobx": "var global.Mobx"
+        "@freelensapp/extensions": "var global.LensExtensions",
+        "mobx": "var global.Mobx",
+        "react": "var global.React"
       }
     ],
     resolve: {
@@ -56,7 +57,7 @@ module.exports = [
     },
     externals: [
       {
-        "@k8slens/extensions": "var global.LensExtensions",
+        "@freelensapp/extensions": "var global.LensExtensions",
         "react": "var global.React",
         "react-dom": "var global.ReactDOM",
         "mobx-react": "var global.MobxReact",

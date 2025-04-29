@@ -1,35 +1,66 @@
-const prompts = require("./prompts");
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { askForExtensionName, askForExtensionDescription, askForExtensionPublisher, askForGit, askForInstallDependencies, askForPackageManager } from './prompts.js';
 
-module.exports = {
-  id: "ext-ts",
-  name: "New Extension (TypeScript)",
-  insidersName: "New Extension (TypeScript)",
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  prompting: async (generator, extensionConfig) => {
-    await prompts.askForExtensionName(generator, extensionConfig);
-    await prompts.askForExtensionDescription(generator, extensionConfig);
-    await prompts.askForExtensionPublisher(generator, extensionConfig);
-    await prompts.askForGit(generator, extensionConfig);
-    await prompts.askForInstallDependencies(generator, extensionConfig);
-    await prompts.askForPackageManager(generator, extensionConfig);
-  },
+export const id = "ext-ts";
+export const name = "New Extension (TypeScript)";
+export const insidersName = "New Extension (TypeScript)";
 
-  writing: (generator, extensionConfig) => {
-    const { gitInit, name } = extensionConfig;
-    const { fs } = generator;
-    if (gitInit) {
-      fs.copy(generator.sourceRoot() + "/gitignore", name + "/.gitignore");
-    }
-    fs.copyTpl(generator.sourceRoot() + "/README.md", name + "/README.md", extensionConfig);
-    fs.copyTpl(generator.sourceRoot() + "/tsconfig.json", name + "/tsconfig.json", extensionConfig);
-    fs.copyTpl(generator.sourceRoot() + "/main.ts", name + "/main.ts", extensionConfig);
-    fs.copyTpl(generator.sourceRoot() + "/renderer.tsx", name + "/renderer.tsx", extensionConfig);
-    fs.copyTpl(generator.sourceRoot() + "/package.json", name + "/package.json", extensionConfig);
-    fs.copyTpl(generator.sourceRoot() + "/webpack.config.js", name + "/webpack.config.js", extensionConfig);
-    fs.copyTpl(generator.sourceRoot() + "/babel.config.js", name + "/babel.config.js", extensionConfig);
+export const generateExtTs = (generator, extensionConfig) => {
+  const templatePath = path.join(__dirname, 'templates', 'ext-ts');
+  generator.sourceRoot(templatePath);
+  
+  const files = [
+    'package.json',
+    'tsconfig.json',
+    'webpack.config.js',
+    'main.ts',
+    'renderer.tsx',
+    'babel.config.js',
+    'README.md',
+    '.biomeignore',
+    
+  ];
 
-    fs.copy(generator.sourceRoot() + "/.eslintrc", name + "/.eslintrc");
-    fs.copy(generator.sourceRoot() + "/.eslintignore", name + "/.eslintignore");
+  files.forEach(file => {
+    generator.fs.copyTpl(
+      generator.templatePath(file),
+      generator.destinationPath(`${extensionConfig.name}/${file}`),
+      extensionConfig
+    );
+  });
 
+  // Copy gitignore separately since it needs to be renamed
+  generator.fs.copy(
+    generator.templatePath('gitignore'),
+    generator.destinationPath(`${extensionConfig.name}/.gitignore`)
+  );
+};
+
+export const prompting = async (generator, extensionConfig) => {
+  await askForExtensionName(generator, extensionConfig);
+  await askForExtensionDescription(generator, extensionConfig);
+  await askForExtensionPublisher(generator, extensionConfig);
+  await askForGit(generator, extensionConfig);
+  await askForInstallDependencies(generator, extensionConfig);
+  await askForPackageManager(generator, extensionConfig);
+};
+
+export const writing = (generator, extensionConfig) => {
+  const { gitInit, name } = extensionConfig;
+  const { fs } = generator;
+  
+  if (gitInit) {
+    fs.copy(generator.sourceRoot() + "/gitignore", name + "/.gitignore");
   }
+  
+  fs.copyTpl(generator.sourceRoot() + "/README.md", name + "/README.md", extensionConfig);
+  fs.copyTpl(generator.sourceRoot() + "/tsconfig.json", name + "/tsconfig.json", extensionConfig);
+  fs.copyTpl(generator.sourceRoot() + "/main.ts", name + "/main.ts", extensionConfig);
+  fs.copyTpl(generator.sourceRoot() + "/renderer.tsx", name + "/renderer.tsx", extensionConfig);
+  fs.copyTpl(generator.sourceRoot() + "/package.json", name + "/package.json", extensionConfig);
+  fs.copyTpl(generator.sourceRoot() + "/webpack.config.js", name + "/webpack.config.js", extensionConfig);
+  fs.copyTpl(generator.sourceRoot() + "/babel.config.js", name + "/babel.config.js", extensionConfig);
 };

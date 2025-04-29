@@ -1,4 +1,4 @@
-import { Main } from "@k8slens/extensions";
+import { Main } from "@freelensapp/extensions";
 
 /**
  * Main.LensExtension api allows you to access, configure, and customize Lens data add

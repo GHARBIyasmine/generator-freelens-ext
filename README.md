@@ -1,9 +1,9 @@
-# Yeoman Lens Extension Generator
+# Yeoman FreeLens Extension Generator
 
-Install Yeoman and the Lens Extension generator:
+Install Yeoman and the FreeLens Extension generator:
 
 ```bash
-npm install -g yo generator-lens-ext
+npm install -g yo @gharbi-yasmine/generator-freelens-ext
 ```
 
 ## Run Generator
@@ -11,7 +11,7 @@ npm install -g yo generator-lens-ext
 The Yeoman generator will walk you through the steps required to create your extension prompting for the required information.
 
 ```bash
-yo lens-ext
+yo freelens-ext
 ```
 
-You can also clone this repo and run `npm link` to use `yo lens-ext` locally.
+You can also clone this repo and run `npm link` to use `yo freelens-ext` locally.

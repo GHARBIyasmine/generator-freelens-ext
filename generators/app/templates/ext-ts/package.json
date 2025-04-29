@@ -5,29 +5,34 @@
 	"publisher": <%- JSON.stringify(publisher) %>,
 	"main": "dist/main.js",
 	"renderer": "dist/renderer.js",
+	"packageManager": "pnpm@8.15.4",
 	"engines": {
-		"node": ">=16 <17",
-		"lens": "^6.0.0"
+		"node": ">=20",
+		"lens": "^1.2.0"
 	},
 	"keywords": [
 		"lens",
 		"extension",
 		"k8slens",
-		"kubernetes"
+		"kubernetes",
+		"freelensapp"
 	],
 	"scripts": {
-		"start": "NODE_ENV=development webpack --watch",
-		"build": "npm run clean && NODE_ENV=production webpack",
+		"start": "NODE_ENV=development pnpm webpack --watch",
+		"build": "pnpm clean && NODE_ENV=production pnpm webpack",
+		"biome": "pnpm dlx @biomejs/biome@1.9.4 init",
 		"clean": "rm -rf ./dist",
-		"lint": "eslint",
-		"test": "npm run lint && jest"
+		"lint": "biome check .",
+		"lint:fix": "biome check --apply .",
+		"format": "biome format --write .",
+		"test": "pnpm lint && pnpm jest"
 	},
 	"dependencies": {
 		<%- dep("react") %>,
 		<%- dep("react-dom") %>
 	},
 	"devDependencies": {
-		<%- dep("@k8slens/extensions") %>,
+		<%- dep("@freelensapp/extensions") %>,
 		<%- dep("ts-loader") %>,
 		<%- dep("typescript") %>,
 		<%- dep("@types/node") %>,
@@ -35,9 +40,7 @@
 		<%- dep("@types/jest") %>,
 		<%- dep("webpack") %>,
 		<%- dep("webpack-cli") %>,
-		<%- dep("eslint") %>,
-		<%- dep("@typescript-eslint/eslint-plugin") %>,
-		<%- dep("@typescript-eslint/parser") %>,
+		<%- dep("@biomejs/biome") %>,
 		<%- dep("jest") %>,
 		<%- dep("@babel/preset-env") %>,
 		<%- dep("@babel/preset-react") %>,

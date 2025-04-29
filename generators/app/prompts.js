@@ -1,6 +1,6 @@
-const { validateExtensionName, validatePublisher } = require("./validator");
+import { validateExtensionName, validatePublisher } from './validator.js';
 
-exports.askForExtensionName = async (generator, extensionConfig) => {
+export const askForExtensionName = async (generator, extensionConfig) => {
   const extensionName = generator.options["extensionName"];
   if (extensionName) {
     extensionConfig.name = extensionName;
@@ -15,7 +15,7 @@ exports.askForExtensionName = async (generator, extensionConfig) => {
   extensionConfig.name = name;
 };
 
-exports.askForExtensionDescription = async (generator, extensionConfig) => {
+export const askForExtensionDescription = async (generator, extensionConfig) => {
   const extensionDescription = generator.options["extensionDescription"];
   if (extensionDescription) {
     extensionConfig.description = extensionDescription;
@@ -28,7 +28,7 @@ exports.askForExtensionDescription = async (generator, extensionConfig) => {
   extensionConfig.description = description;
 };
 
-exports.askForExtensionPublisher = async (generator, extensionConfig) => {
+export const askForExtensionPublisher = async (generator, extensionConfig) => {
   const extensionPublisher = generator.options["extensionPublisher"];
   if (extensionPublisher) {
     extensionConfig.extensionPublisher = extensionPublisher;
@@ -43,7 +43,7 @@ exports.askForExtensionPublisher = async (generator, extensionConfig) => {
   extensionConfig.publisher = publisher;
 };
 
-exports.askForGit = (generator, extensionConfig) => generator.prompt({
+export const askForGit = (generator, extensionConfig) => generator.prompt({
   type: "confirm",
   name: "gitInit",
   message: "Initialize a git repository?",
@@ -52,7 +52,7 @@ exports.askForGit = (generator, extensionConfig) => generator.prompt({
   extensionConfig.gitInit = gitAnswer.gitInit;
 });
 
-exports.askForInstallDependencies = (generator, extensionConfig) => generator.prompt({
+export const askForInstallDependencies = (generator, extensionConfig) => generator.prompt({
   type: "confirm",
   name: "installDependencies",
   message: "Install dependencies after initialization?",
@@ -61,7 +61,7 @@ exports.askForInstallDependencies = (generator, extensionConfig) => generator.pr
   extensionConfig.installDependencies = installDependencies;
 });
 
-exports.askForPackageManager = async (generator, extensionConfig) => {
+export const askForPackageManager = async (generator, extensionConfig) => {
   const { pkgManager } = await generator.prompt({
     type: "list",
     name: "pkgManager",
@@ -74,9 +74,13 @@ exports.askForPackageManager = async (generator, extensionConfig) => {
       {
         name: "yarn",
         value: "yarn"
+      },
+      {
+        name: "pnpm",
+        value: "pnpm"
       }
     ],
-    default: "yarn"
+    default: "pnpm"
   });
   extensionConfig.pkgManager = pkgManager;
 };
