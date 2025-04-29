@@ -1,5 +1,13 @@
 # Yeoman FreeLens Extension Generator
 
+> [!WARNING]  
+> Package generator-freelens-ext is not available yet on npm.
+> Follow these steps instead:
+> - Install yo : npm install -g yo
+> - git clone https://github.com/GHARBIyasmine/generator-freelens-ext
+> - run command : npm link
+> - rum command : yo freelens-ext 
+
 Install Yeoman and the FreeLens Extension generator:
 
 ```bash
