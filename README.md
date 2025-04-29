@@ -3,7 +3,7 @@
 Install Yeoman and the FreeLens Extension generator:
 
 ```bash
-npm install -g yo @gharbi-yasmine/generator-freelens-ext
+npm install -g yo generator-freelens-ext
 ```
 
 ## Run Generator

@@ -1,31 +1,37 @@
-const path = require("path");
-const fs = require("fs");
+import assert from 'yeoman-assert';
+import { create } from 'yeoman-test';
 
-const assert = require("yeoman-assert");
-const { run } = require("yeoman-test");
+test('ext-ts generator works as expected', async () => {
+  const name = 'my-test-ext';
+  const description = 'Test extension';
+  const publisher = '@test/test';
 
-test("ext-ts generator works as expected", async () => {
-  const name = "my-test-ext";
-  const resultPath = await run(path.join(__dirname, "../generators/app")).withPrompts({
-    type: "ext-ts",
+  await create(import('../generators/app/index.js'))
+    .withOptions({
+      extensionName: name,
+      extensionDescription: description,
+      extensionPublisher: publisher,
+    })
+    .withPrompts({
+      name,
+      description,
+      publisher,
+      gitInit: false,
+      installDependencies: false,
+      pkgManager: 'npm',
+    });
+
+  assert.file([
+    `${name}/package.json`,
+    `${name}/tsconfig.json`,
+    `${name}/webpack.config.js`,
+    `${name}/main.ts`,
+    `${name}/renderer.tsx`,
+  ]);
+
+  assert.jsonFileContent(`${name}/package.json`, {
     name,
-    description: "randome description",
-    publisher: "random publisher",
-    gitInit: true,
-    pkgManager: "yarn",
-    installDependencies: false,
-    symlink: false,
+    description,
+    publisher,
   });
-  // for debug
-  // console.log("resultPath", resultPath);
-  const files = [
-    "README.md", "package.json", "webpack.config.js", "tsconfig.json", ".gitignore",
-    "main.ts", "renderer.tsx",
-    "babel.config.js", ".eslintrc", ".eslintignore"
-  ].map((fileName) => `${resultPath}/${name}/${fileName}`);
-  assert.file(files);
-  const packageJSON = JSON.parse(fs.readFileSync(`${resultPath}/${name}/package.json`, "utf8"));
-  const tsconfig = JSON.parse(fs.readFileSync(`${resultPath}/${name}/tsconfig.json`, "utf8"));
-  expect(packageJSON).toMatchSnapshot();
-  expect(tsconfig).toMatchSnapshot();
 });

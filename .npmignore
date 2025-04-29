@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Testing
+coverage/
+.nyc_output/
+
+# Development
+.vscode/
+.idea/
+*.log
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Templates (these should be included)
+# generators/app/templates/ 
