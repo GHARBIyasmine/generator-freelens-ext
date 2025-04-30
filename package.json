@@ -1,5 +1,5 @@
 {
-  "name": "generator-freelens-ext",
+  "name": "generator-frlens-ext",
   "version": "0.0.1",
   "description": "A Yeoman generator for creating FreeLens extensions with TypeScript support",
   "copyright": "© 2025, Yasmine Gharbi © 2020, Mirantis, Inc. ",
